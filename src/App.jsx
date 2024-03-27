@@ -64,17 +64,12 @@ console.log(filteredNames)
         loading ? (
           <Loader/>
         ) : 
-        (
-          filteredNames.map((res, i) => 
-        
-              <Accordion
-              key = {i}
-              id = {i}
-              title={res.name}
-              url={res.url}
-            />
-          )
-        )
+        <>
+          {filteredNames.map((res, i) => (
+            <Accordion key={i} id={i} title={res.name} url={res.url} />
+          ))}
+          {filteredNames.length === 0 && <p>No results found.</p>}
+        </>
       }
     
       <Pagination currentPage={currentPage} onPageChange={handlePageChange} />
