@@ -10,11 +10,11 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [value, setValue] = useState('');
+  const [filteredNames, setFilteredNames] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const refResult = useRef(null)
   
-    useEffect(() => {
+  useEffect(() => {
     let ignore = false;
 
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=${currentPage*20}&limit=20`)
@@ -39,16 +39,18 @@ function App() {
     
   }, [currentPage]);
   
- const names = characters.map(char => char.name);
- 
+ useEffect (() => {
+  const filtered = characters.filter(char => char.name.toLowerCase().includes(value.toLowerCase()));
+  setFilteredNames(filtered)
+ }, [characters, value])
 
+console.log(filteredNames)
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     setLoading(true);
   }
 
-  refResult.current = names.filter(name => name.toLowerCase().includes(value.toLowerCase()))
 
   return (
   <div className="App">
@@ -63,12 +65,13 @@ function App() {
           <Loader/>
         ) : 
         (
-          refResult.current.map((res, i) => 
+          filteredNames.map((res, i) => 
+        
               <Accordion
               key = {i}
-              id = {i+1}
-              title={res}
-              url={characters[i].url}
+              id = {i}
+              title={res.name}
+              url={res.url}
             />
           )
         )

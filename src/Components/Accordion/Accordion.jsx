@@ -6,14 +6,14 @@ function Accordion(props) {
     const [pokemonDetails, setPokemonDetails] = useState(null)
     const content = useRef(null);
     const [height, setHeight] = useState('0px');
-    console.log(content)
-
+    // console.log(content)
+//  console.log(props)
     async function toggleAccordion(){
         setActive(!active);
         setHeight(active ? '0px' : `${content.current.scrollHeight}px`);
 
         if(active) {
-          console.log(active)
+          // console.log(active)
           setPokemonDetails(null);
         }else {
           try{
@@ -24,6 +24,7 @@ function Accordion(props) {
             console.error('Error fetching pokemon details:', error);
           }
         }
+        console.log(props)
     }
 
     {pokemonDetails && console.log(pokemonDetails.sprites.other.dream_world.front_default)}
